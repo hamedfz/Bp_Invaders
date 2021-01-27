@@ -14,6 +14,10 @@ class Game
     private:
         RenderWindow window;
 
+        bool win = false;
+        Text text;
+        Font font;
+
         RectangleShape player;
         Vector2f playerCenter;
         int shootTimer;
@@ -23,6 +27,7 @@ class Game
         
         RectangleShape enemy;
         std::vector<RectangleShape> enemies;
+        std::string Direction = "Left";
         int enemySpawnTimer;
 };
 
@@ -35,8 +40,19 @@ int main()
 
 Game::Game() 
 {
+
     window.create(VideoMode(860,640),"Invaders");
     window.setFramerateLimit(60);
+
+    if( !font.loadFromFile("arial.ttf"))
+    {
+        //handle error
+    }
+    text.setString("You Win!");
+    text.setFont(font);
+    text.setFillColor( sf::Color::Magenta);
+    text.setCharacterSize(50);
+    text.setPosition(window.getSize().x/2 - 100 , window.getSize().y/2 - 50 );
 
     player.setSize(Vector2f(80.f,80.f));
     player.setPosition(window.getSize().x/2 - player.getSize().x/2 ,window.getSize().y - player.getSize().y );
@@ -49,12 +65,19 @@ Game::Game()
 
     enemy.setFillColor(Color::White);
     enemy.setSize(Vector2f(50.f,50.f));
+    enemy.setPosition(window.getSize().x/2 - enemy.getSize().x/2 , window.getSize().y/2 - enemy.getSize().y/2 - 100 );
     enemySpawnTimer = 0;
+    //create 5 enemies
+    for( int i = 0 ; i < 5 ; i++ )
+    {        
+        enemies.push_back(enemy);
+        enemies[i].move( (i-2)*(enemy.getSize().x + 50) , 0);
+    }
 }
 
 void Game::run()
 {
-    srand(time(NULL));
+    //srand(time(NULL));
     while(window.isOpen())
     {
         processEvents();
@@ -84,22 +107,22 @@ void Game::update()
     //player movements
     if( Keyboard::isKeyPressed(Keyboard::A) && player.getPosition().x > 0 )
     {
-        player.move(-5.f,0.f);
+        player.move(-3.f,0.f);
     }
 
     if( Keyboard::isKeyPressed(Keyboard::D) && player.getPosition().x + player.getSize().x < window.getSize().x )
     {
-        player.move(5.f,0.f);
+        player.move(3.f,0.f);
     }
 
     if( Keyboard::isKeyPressed(Keyboard::W) && player.getPosition().y > 0 )
     {
-        player.move(0.f,-5.f);
+        player.move(0.f,-3.f);
     }
 
     if( Keyboard::isKeyPressed(Keyboard::S) && player.getPosition().y + player.getSize().y < window.getSize().y  )
     {
-        player.move(0.f,5.f);
+        player.move(0.f,3.f);
     }
 
     playerCenter = Vector2f( player.getPosition().x + player.getSize().x/2 , player.getPosition().y + player.getSize().y/2);
@@ -125,22 +148,43 @@ void Game::update()
     }
 
     //enemies movements
-    if( enemySpawnTimer < 60 )
-        enemySpawnTimer++;
+    //if( enemySpawnTimer < 60 )
+    //    enemySpawnTimer++;
+    //else
+    //{
+    //    enemy.setPosition( rand()%(int)(window.getSize().x - enemy.getSize().x) , 0.f );
+    //    if( enemies.size() < 8 )
+    //        enemies.push_back(enemy);
+    //}
+    if( Direction == "Left" )
+    {
+        for( int i = 0 ; i < enemies.size() ; i++)
+        {
+                enemies[i].move(-1.f,0.f);
+        }
+    }
     else
     {
-        enemy.setPosition( rand()%(int)(window.getSize().x - enemy.getSize().x) , 0.f );
-        if( enemies.size() < 8 )
-            enemies.push_back(enemy);
+        for( int i = 0 ; i < enemies.size() ; i++)
+        {
+                enemies[i].move(1.f,0.f);
+        }
+    }
+    for( int i = 0 ; i < enemies.size() ; i++ )
+    {
+        if( enemies[i].getPosition().x < 0 )
+        {
+            Direction = "Right";
+        }
+        else if(enemies[i].getPosition().x + enemy.getSize().x > window.getSize().x)
+        {
+            Direction = "Left";
+        }
     }
 
-    for( int i = 0 ; i < enemies.size() ; i++)
+    if( enemies.size() == 0 )
     {
-        enemies[i].move(0.f,1.f);
-
-        if( enemies[i].getPosition().y > window.getSize().y )
-            enemies.erase( enemies.begin()+i );
-
+        win = true;
     }
 
     //collision
@@ -156,23 +200,28 @@ void Game::update()
             }
         }
     }
-
-
 }
 
 void Game::render() 
 {
     window.clear(Color::Black);
 
-    for( int i = 0 ; i < enemies.size() ; i++ )
+    if( win == false )
     {
-        window.draw(enemies[i]);
+        for( int i = 0 ; i < enemies.size() ; i++ )
+        {
+            window.draw(enemies[i]);
+        }
+        for( int i = 0 ; i < projectiles.size() ; i++ )
+        {
+            window.draw(projectiles[i]);
+        }
+        window.draw(player);
     }
-    for( int i = 0 ; i < projectiles.size() ; i++ )
+    else
     {
-        window.draw(projectiles[i]);
-    }
-    window.draw(player);
+        window.draw(text);
+    }   
 
     window.display();
 }
