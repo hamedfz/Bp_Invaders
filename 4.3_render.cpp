@@ -14,7 +14,7 @@ void Game::render()
         case Playing:
             //draw background
                 myWindow.draw(myBackground);
-
+            
             //draw projectiles
                 for( int i = 0 ; i < PlayerProjectiles.size() ; i++ )
                 {
@@ -37,12 +37,14 @@ void Game::render()
                 }
             //draw player
                 myWindow.draw(myPlayer);
-                //infos
+            //infos
                 myWindow.draw(HeartSample);
                 myWindow.draw(HealthText);
                 myWindow.draw(ProjectileLimitText);
                 myWindow.draw(ProjectileInfo);
                 myWindow.draw(scoreText);
+                //draw timer
+                myWindow.draw(myTimerText);
             break;
 
         case Win:

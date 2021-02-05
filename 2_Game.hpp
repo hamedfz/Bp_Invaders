@@ -27,10 +27,16 @@ class Game
         sf::Text messageText , scoreText;
 
     //time handling
-        sf::Clock clock;
+        sf::Clock myClock;
+        sf::Text myTimerText;
+        int min = 0;
+        int sec = 0;
 
     //window
         sf::RenderWindow myWindow;
+    
+    //txt file
+    //File *ptr;
 
     //font section
         sf::Font funFont;
@@ -54,6 +60,8 @@ class Game
         //player explosion
         sf::SoundBuffer explosionBuffer;
         sf::Sound explosionSound;
+        sf::SoundBuffer winSoundBuffer;
+        sf::Sound winSound;
 
     //projectile
         //player projectile

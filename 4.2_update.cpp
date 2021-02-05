@@ -175,6 +175,7 @@ void Game::update()
         if( myEnemies.size() == 0 && !stateSet )
         {
             state = Win;
+            winSound.play();
             stateSet = true;
         }
         else if( Health == 0 && !stateSet )
@@ -190,6 +191,18 @@ void Game::update()
             explosionSound.play();
             messageText.setString("Out of ammo");
             stateSet = true;
+        }
+        //timer update
+        if( myClock.getElapsedTime().asSeconds() >= 1 )
+        {
+            sec++;
+            if( sec > 59 )
+            {
+                min++;
+                sec = 0;
+            }
+            myClock.restart().asSeconds();
+            myTimerText.setString( std::to_string(min) + " : " + std::to_string(sec) );
         }
         break; //end case of playing
 

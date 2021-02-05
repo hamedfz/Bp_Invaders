@@ -29,12 +29,22 @@ Game::Game()
     }
     messageText.setFont(funFont);
     messageText.setCharacterSize(100);
-    messageText.setOutlineThickness(1);
+    messageText.setOutlineThickness(5);
     messageText.setPosition(myWindow.getSize().x/2 - 150 , myWindow.getSize().y/2 - 100 );
     scoreText.setFont(funFont);
     scoreText.setCharacterSize(50);
-    scoreText.setString("Score");
+    scoreText.setOutlineThickness(5);
+    scoreText.setString("Your Score");
+    scoreText.move( 5 , -5 );
 
+    //time handling
+    myClock.restart().asSeconds();
+    myTimerText.setFont(font);
+    myTimerText.setCharacterSize(25);
+    myTimerText.move( 180 , 15 );
+    myTimerText.setOutlineThickness(5);
+    myTimerText.setFillColor(sf::Color::Yellow);
+    myTimerText.setString("0 : 0");
 
     //myPlayer creation
     if( !myPlayerTex.loadFromFile("res/myPlayer.png") )
@@ -58,6 +68,7 @@ Game::Game()
     HealthText.setCharacterSize(25);
     HealthText.setFillColor(sf::Color::Yellow);
     HealthText.setString("3");
+    HealthText.setOutlineThickness(5);
 
         //explosion
     if( !explosionBuffer.loadFromFile("res/playerExplode.oga") )
@@ -87,6 +98,7 @@ Game::Game()
     ChickenHitSound.setBuffer(ChickenHitBuffer);
     ProjectileLimitText.setFont(font);
     ProjectileLimitText.setCharacterSize(25);
+    ProjectileLimitText.setOutlineThickness(5);
     ProjectileLimitText.setFillColor(sf::Color::Yellow);
     ProjectileLimitText.setString("45");
     ProjectileLimitText.setPosition( 127 , myWindow.getSize().y - HeartSample.getGlobalBounds().height - 15  );
@@ -134,4 +146,11 @@ Game::Game()
             myEnemy.move(0,-myEnemy.getGlobalBounds().height-10);
         }
     }
+
+    //sounds
+    if( !winSoundBuffer.loadFromFile("res/youwin.ogg") )
+    {
+        throw "winSound Missing";
+    }
+    winSound.setBuffer(winSoundBuffer);
 }
