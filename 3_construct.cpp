@@ -1,5 +1,5 @@
 #include "2_Game.hpp"
-#include "1_Info.hpp"
+#include "0_Info.hpp"
 #include <iostream>
 
 Game::Game() 
@@ -13,7 +13,7 @@ Game::Game()
     myWindow.setPosition(sf::Vector2i(250,50));
 
     //background section
-    if( !myBackgroundTex.loadFromFile("res/background.png"))
+    if( !myBackgroundTex.loadFromFile("res/background2.png"))
     {
         throw "Background Image Missing";
     }
@@ -23,14 +23,17 @@ Game::Game()
 
 
     //font section
-    if( !font.loadFromFile("res/arial.ttf"))
+    if( !font.loadFromFile("res/arial.ttf") || !funFont.loadFromFile("res/TropicalAsian.ttf") )
     {
         throw "Font Missing";
     }
-    text.setFont(font);
-    text.setFillColor( sf::Color::Magenta);
-    text.setCharacterSize(50);
-    text.setPosition(myWindow.getSize().x/2 - 100 , myWindow.getSize().y/2 - 50 );
+    messageText.setFont(funFont);
+    messageText.setCharacterSize(100);
+    messageText.setOutlineThickness(1);
+    messageText.setPosition(myWindow.getSize().x/2 - 150 , myWindow.getSize().y/2 - 100 );
+    scoreText.setFont(funFont);
+    scoreText.setCharacterSize(50);
+    scoreText.setString("Score");
 
 
     //myPlayer creation
@@ -48,13 +51,14 @@ Game::Game()
         throw "Heart Image Missing";
     }
     HeartSample.setTexture(HeartTex);
-    HeartSample.setScale( 40 / HeartSample.getLocalBounds().width , 45/HeartSample.getLocalBounds().height );
+    HeartSample.setScale( 30 / HeartSample.getLocalBounds().width , 30/HeartSample.getLocalBounds().height );
     HeartSample.setPosition( 15 , myWindow.getSize().y - HeartSample.getGlobalBounds().height - 15 );
-    for( int i = 0 ; i < HEALTH ; i++ )
-    {
-        Hearts.push_back(HeartSample);
-        HeartSample.move( HeartSample.getGlobalBounds().width + 5 , 0 );
-    }
+    HealthText.setPosition( 55 , HeartSample.getPosition().y );
+    HealthText.setFont(font);
+    HealthText.setCharacterSize(25);
+    HealthText.setFillColor(sf::Color::Yellow);
+    HealthText.setString("3");
+
         //explosion
     if( !explosionBuffer.loadFromFile("res/playerExplode.oga") )
     {
@@ -81,6 +85,15 @@ Game::Game()
         throw "chickenhit Missing";
     }
     ChickenHitSound.setBuffer(ChickenHitBuffer);
+    ProjectileLimitText.setFont(font);
+    ProjectileLimitText.setCharacterSize(25);
+    ProjectileLimitText.setFillColor(sf::Color::Yellow);
+    ProjectileLimitText.setString("45");
+    ProjectileLimitText.setPosition( 127 , myWindow.getSize().y - HeartSample.getGlobalBounds().height - 15  );
+    ProjectileInfo.setTexture(PlayerProjectileTex);
+    ProjectileInfo.setScale( 20 / PlayerProjectileSample.getLocalBounds().width , 45/PlayerProjectileSample.getLocalBounds().height );
+    ProjectileInfo.setPosition(100,myWindow.getSize().y - 53 );
+
         //enemy projectile
     if( !eggProjectileTex.loadFromFile("res/egg.png") )
     {
@@ -88,7 +101,11 @@ Game::Game()
     }
     eggProjectileSample.setTexture(eggProjectileTex);
     eggTimer = 0;
-
+    if( !eggShipBuffer.loadFromFile("res/eggShip.oga") )
+    {
+        throw "eggShip Missing";
+    }
+    eggShipSound.setBuffer(eggShipBuffer);
 
     //enemy creation
     if(!myEnemyTex.loadFromFile("res/ChickenEnemy.png"))

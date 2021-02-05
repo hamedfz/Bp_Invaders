@@ -1,5 +1,6 @@
 #pragma once
 
+#include "0_Info.hpp"
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -7,7 +8,7 @@
 #include <vector>
 #include <stdlib.h>
 
-enum State{ MainMenu , Playing , Win , Lose , Quit };
+enum State{ MainMenu , Playing , Win , Lose , Pause };
 
 class Game
 {
@@ -23,6 +24,7 @@ class Game
     //states
         State state;
         bool stateSet = false;
+        sf::Text messageText , scoreText;
 
     //time handling
         sf::Clock clock;
@@ -31,7 +33,7 @@ class Game
         sf::RenderWindow myWindow;
 
     //font section
-        sf::Text text;
+        sf::Font funFont;
         sf::Font font;
 
     //background
@@ -44,9 +46,11 @@ class Game
         sf::Sprite myPlayer;
         sf::Vector2f myPlayerCenter;
         //player health
+        int Health = HEALTH; 
         sf::Texture HeartTex;
         sf::Sprite HeartSample;
         std::vector<sf::Sprite> Hearts;
+        sf::Text HealthText;
         //player explosion
         sf::SoundBuffer explosionBuffer;
         sf::Sound explosionSound;
@@ -61,12 +65,22 @@ class Game
         sf::Sound ShootSound;
         sf::SoundBuffer ChickenHitBuffer;
         sf::Sound ChickenHitSound;
+        int ProjectileLimit = 45;
         int ShootTimer;
+        sf::Text ProjectileLimitText;
+        sf::Sprite ProjectileInfo;
+
         //enemy projectile
         sf::Texture eggProjectileTex;
         sf::Sprite eggProjectileSample;
         std::vector< sf::Sprite > eggProjectiles;
+        sf::SoundBuffer eggShipBuffer;
+        sf::Sound eggShipSound;
         int eggTimer;
+
+        //gifts
+        sf::Texture giftTex;
+        sf::Sprite giftSample;
         
     //enemy
         sf::Texture myEnemyTex;

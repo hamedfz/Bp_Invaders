@@ -32,26 +32,25 @@ void Game::render()
                 }
             //draw player
                 myWindow.draw(myPlayer);
-                //hearts
-                for(int i = 0 ; i < Hearts.size() ; i++ )
-                {
-                    myWindow.draw(Hearts[i]);
-                }
+                //infos
+                myWindow.draw(HeartSample);
+                myWindow.draw(HealthText);
+                myWindow.draw(ProjectileLimitText);
+                myWindow.draw(ProjectileInfo);
+                myWindow.draw(scoreText);
             break;
 
         case Win:
-            text.setString("You Win!");
             myWindow.draw(myBackground);
-            myWindow.draw(text);
+            myWindow.draw(messageText);
             break;
 
         case Lose:
             myWindow.draw(myBackground);
-            text.setString("Game Over!");
-            myWindow.draw(text);
+            myWindow.draw(messageText);
             break;
 
-        case Quit:
+        case Pause:
             break;
     }
 //display
