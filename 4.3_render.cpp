@@ -6,47 +6,53 @@ void Game::render()
     myWindow.clear();
 
 //playing state
-    if( win == false )
+    switch(state)
     {
-        myWindow.draw(myBackground);
-    //draw enemies
-        //0
-        for( int i = 0 ; i < myEnemies_0_.size() ; i++ )
-        {
-            myWindow.draw(myEnemies_0_[i]);
-        }
-        //1
-        for( int i = 0 ; i < myEnemies_1_.size() ; i++ )
-        {
-            myWindow.draw(myEnemies_1_[i]);
-        }
-        //2
-        for( int i = 0 ; i < myEnemies_2_.size() ; i++ )
-        {
-            myWindow.draw(myEnemies_2_[i]);
-        }
-        //3
-        for( int i = 0 ; i < myEnemies_3_.size() ; i++ )
-        {
-            myWindow.draw(myEnemies_3_[i]);
-        }
-        //4
-        for( int i = 0 ; i < myEnemies_4_.size() ; i++ )
-        {
-            myWindow.draw(myEnemies_4_[i]);
-        }
-    //draw projectiles
-        for( int i = 0 ; i < PlayerProjectiles.size() ; i++ )
-        {
-            myWindow.draw(PlayerProjectiles[i]);
-        }
-        myWindow.draw(myPlayer);
-    }
-//game end state
-    else
-    {
-        myWindow.draw(myBackground);
-        myWindow.draw(text);
+        case MainMenu:
+            break;
+
+        case Playing:
+            //draw background
+                myWindow.draw(myBackground);
+
+            //draw projectiles
+                for( int i = 0 ; i < PlayerProjectiles.size() ; i++ )
+                {
+                    myWindow.draw(PlayerProjectiles[i]);
+                }
+            //draw eggs
+                for( int i = 0 ; i < eggProjectiles.size() ; i++ )
+                {
+                    myWindow.draw(eggProjectiles[i]);
+                }
+            //draw enemies
+                for( int i = 0 ; i < myEnemies.size() ; i++ )
+                {
+                    myWindow.draw(myEnemies[i]);
+                }
+            //draw player
+                myWindow.draw(myPlayer[0]);
+                //hearts
+                for(int i = 0 ; i < Hearts.size() ; i++ )
+                {
+                    myWindow.draw(Hearts[i]);
+                }
+            break;
+
+        case Win:
+            text.setString("You Win!");
+            myWindow.draw(myBackground);
+            myWindow.draw(text);
+            break;
+
+        case Lose:
+            text.setString("Game Over!");
+            myWindow.draw(myBackground);
+            myWindow.draw(text);
+            break;
+
+        case Quit:
+            break;
     }
 //display
     myWindow.display();

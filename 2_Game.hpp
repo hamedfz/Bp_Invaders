@@ -4,7 +4,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <stdlib.h>
 
+enum State{ MainMenu , Playing , Win , Lose , Quit };
 
 class Game
 {
@@ -17,36 +19,49 @@ class Game
         void render();
 
     private:
+    //states
+        State state;
+
+    //time handling
+        sf::Clock clock;
+
+    //window
         sf::RenderWindow myWindow;
 
-        bool win = false;
+    //font section
         sf::Text text;
         sf::Font font;
 
-        //background
+    //background
         sf::Texture myBackgroundTex;
         sf::Sprite  myBackground;
 
-        //myPlayer
+    //myPlayer
+        //player
         sf::Texture myPlayerTex;
-        sf::Sprite myPlayer;
+        sf::Sprite myPlayerSample;
+        std::vector<sf::Sprite> myPlayer;
         sf::Vector2f myPlayerCenter;
-        int shootTimer;
+        //player health
+        sf::Texture HeartTex;
+        sf::Sprite HeartSample;
+        std::vector<sf::Sprite> Hearts;
 
-        //projectile
-            //player projectile
+    //projectile
+        //player projectile
         sf::Texture PlayerProjectileTex;
         sf::Sprite PlayerProjectileSample;
         std::vector<sf::Sprite> PlayerProjectiles;
-            //enemy projectile
+        int ShootTimer;
+        //enemy projectile
+        sf::Texture eggProjectileTex;
+        sf::Sprite eggProjectileSample;
+        std::vector< sf::Sprite > eggProjectiles;
+        int eggTimer;
         
-        //enemy
+    //enemy
         sf::Texture myEnemyTex;
         sf::Sprite myEnemy;
-        std::vector<sf::Sprite> myEnemies_0_;
-        std::vector<sf::Sprite> myEnemies_1_;
-        std::vector<sf::Sprite> myEnemies_2_;
-        std::vector<sf::Sprite> myEnemies_3_;
-        std::vector<sf::Sprite> myEnemies_4_;
+        std::vector<sf::Sprite> myEnemies;
         std::string Direction = "Left";
 };
