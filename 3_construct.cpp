@@ -4,6 +4,9 @@
 
 Game::Game() 
 {
+    //state
+    state = Playing;
+
     //window section
     myWindow.create(sf::VideoMode(SCREEN_WIDTH,SCREEN_HEIGHT),"Space Invaders");
     myWindow.setFramerateLimit(FRAMERATE_LIMIT);
@@ -24,12 +27,10 @@ Game::Game()
     {
         throw "Font Missing";
     }
-    text.setString("You Win!");
     text.setFont(font);
     text.setFillColor( sf::Color::Magenta);
     text.setCharacterSize(50);
     text.setPosition(myWindow.getSize().x/2 - 100 , myWindow.getSize().y/2 - 50 );
-
 
 
     //myPlayer creation
@@ -37,22 +38,42 @@ Game::Game()
     {
         throw "myPlayer Image Missing";
     }
-    myPlayer.setTexture(myPlayerTex);
-    myPlayer.setScale(MYPLAYER_WIDTH/myPlayer.getLocalBounds().width , MYPLAYER_HEIGHT/myPlayer.getLocalBounds().height);
-    myPlayer.setPosition(myWindow.getSize().x/2 , myWindow.getSize().y - myPlayer.getLocalBounds().height/2 );
-    myPlayerCenter = sf::Vector2f( myPlayer.getPosition().x + myPlayer.getGlobalBounds().width/2 - 4 , myPlayer.getPosition().y + myPlayer.getGlobalBounds().height/2 );
-    shootTimer = 0;
-
-
+    myPlayerSample.setTexture(myPlayerTex);
+    myPlayerSample.setScale(MYPLAYER_WIDTH/myPlayerSample.getLocalBounds().width , MYPLAYER_HEIGHT/myPlayerSample.getLocalBounds().height);
+    myPlayerSample.setPosition(myWindow.getSize().x/2 , myWindow.getSize().y - myPlayerSample.getLocalBounds().height/2 - 20 );
+    myPlayerCenter = sf::Vector2f( myPlayerSample.getPosition().x + myPlayerSample.getGlobalBounds().width/2 - 4 , myPlayerSample.getPosition().y + myPlayerSample.getGlobalBounds().height/2 );
+    myPlayer.push_back(myPlayerSample);
+        //hearts
+    if( !HeartTex.loadFromFile("res/heart.png") )
+    {
+        throw "Heart Image Missing";
+    }
+    HeartSample.setTexture(HeartTex);
+    HeartSample.setScale( 40 / HeartSample.getLocalBounds().width , 45/HeartSample.getLocalBounds().height );
+    HeartSample.setPosition( 15 , myWindow.getSize().y - HeartSample.getGlobalBounds().height - 15 );
+    for( int i = 0 ; i < HEALTH ; i++ )
+    {
+        Hearts.push_back(HeartSample);
+        HeartSample.move( HeartSample.getGlobalBounds().width + 5 , 0 );
+    }
 
     //projectile creation
+        //player projectile
     if( !PlayerProjectileTex.loadFromFile("res/PlayerProjectile.png") )
     {
         throw "PlayerProjectile Image Missing";
     }
+    ShootTimer = 0;
     PlayerProjectileSample.setTexture(PlayerProjectileTex);
+    PlayerProjectileSample.setScale( 20 / PlayerProjectileSample.getLocalBounds().width , 45/PlayerProjectileSample.getLocalBounds().height );
+        //enemy projectile
+    if( !eggProjectileTex.loadFromFile("res/egg.png") )
+    {
+        throw "eggProjectile Image Missing";
+    }
+    eggProjectileSample.setTexture(eggProjectileTex);
+    eggTimer = 0;
 
-    
 
     //enemy creation
     if(!myEnemyTex.loadFromFile("res/ChickenEnemy.png"))
@@ -62,38 +83,13 @@ Game::Game()
     myEnemy.setTexture(myEnemyTex);
     myEnemy.setScale(60/myEnemy.getLocalBounds().width , 70/myEnemy.getLocalBounds().height);
     myEnemy.setPosition(myWindow.getSize().x/2 - myEnemy.getGlobalBounds().width/2 , myWindow.getSize().y/2 - myEnemy.getGlobalBounds().height/2);
-    //0
-    for( int i = 0 ; i < 7 ; i++ )
+    for( int i = 0 ; i < 35 ; i++ )
     {
-        myEnemies_0_.push_back(myEnemy);
-        myEnemies_0_[i].move( (i-2)*(myEnemy.getGlobalBounds().width + 50 ) , 0 );
-    }
-    //1
-    myEnemy.move(0,-myEnemy.getGlobalBounds().height-10);
-    for( int i = 0 ; i < 7 ; i++ )
-    {
-        myEnemies_1_.push_back(myEnemy);
-        myEnemies_1_[i].move( (i-2)*(myEnemy.getGlobalBounds().width + 50 ) , 0 );
-    }
-    //2
-    myEnemy.move(0,-myEnemy.getGlobalBounds().height-10);
-    for( int i = 0 ; i < 7 ; i++ )
-    {
-        myEnemies_2_.push_back(myEnemy);
-        myEnemies_2_[i].move( (i-2)*(myEnemy.getGlobalBounds().width + 50 ) , 0 );
-    }
-    //3
-    myEnemy.move(0,-myEnemy.getGlobalBounds().height-10);
-    for( int i = 0 ; i < 7 ; i++ )
-    {
-        myEnemies_3_.push_back(myEnemy);
-        myEnemies_3_[i].move( (i-2)*(myEnemy.getGlobalBounds().width + 50 ) , 0 );
-    }
-    //4
-    myEnemy.move(0,-myEnemy.getGlobalBounds().height-10);
-    for( int i = 0 ; i < 7 ; i++ )
-    {
-        myEnemies_4_.push_back(myEnemy);
-        myEnemies_4_[i].move( (i-2)*(myEnemy.getGlobalBounds().width + 50 ) , 0 );
+        myEnemies.push_back(myEnemy);
+        myEnemies[i].move( (i%7-2)*(myEnemy.getGlobalBounds().width + 50 ) , 0 );
+        if( i % 7 == 6 )
+        {
+            myEnemy.move(0,-myEnemy.getGlobalBounds().height-10);
+        }
     }
 }

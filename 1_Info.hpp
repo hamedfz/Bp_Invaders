@@ -9,3 +9,4 @@
 //myPlayer
 #define MYPLAYER_WIDTH 60
 #define MYPLAYER_HEIGHT 80
+#define HEALTH 3
