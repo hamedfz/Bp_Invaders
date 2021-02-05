@@ -66,7 +66,7 @@ class Game
         sf::SoundBuffer ChickenHitBuffer;
         sf::Sound ChickenHitSound;
         int ProjectileLimit = 45;
-        int ShootTimer;
+        int ShootTimer = 0;
         sf::Text ProjectileLimitText;
         sf::Sprite ProjectileInfo;
 
@@ -81,7 +81,11 @@ class Game
         //gifts
         sf::Texture giftTex;
         sf::Sprite giftSample;
-        
+        std::vector< sf::Sprite > gifts;
+        int giftTimer = 0;
+        sf::SoundBuffer rewardBuffer;
+        sf::Sound rewardSound;
+
     //enemy
         sf::Texture myEnemyTex;
         sf::Sprite myEnemy;

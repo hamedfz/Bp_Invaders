@@ -70,6 +70,28 @@ void Game::update()
                 eggProjectiles.erase( eggProjectiles.begin()+i );
             }
         }
+    
+    //gifts
+        if( giftTimer > 2000 )
+        {
+            giftTimer = 0;
+            int random_x = rand()%((int)(myWindow.getSize().x-giftSample.getGlobalBounds().width));
+            giftSample.setPosition(random_x,0);
+            gifts.push_back(giftSample);
+        }
+        else
+        {
+            giftTimer++;
+        }
+        //gift move and delete
+        for( int i = 0 ; i < gifts.size() ; i++ )
+        {
+            gifts[i].move(0.f,+1.f);
+            if( gifts[i].getPosition().y > myWindow.getSize().y )
+            {
+                gifts.erase( gifts.begin()+i );
+            }
+        }
 
     //enemies movements
         if( Direction == "Left" )
@@ -126,7 +148,29 @@ void Game::update()
                 eggProjectiles.erase( eggProjectiles.begin()+k );
             }
         }
-
+            //gifts collision
+        for( int i = 0 ; i < gifts.size() ; i++ )
+        {
+            if( gifts[i].getGlobalBounds().intersects(myPlayer.getGlobalBounds()) )
+            {
+                rewardSound.play();
+                int random = rand()%3 ;
+                if( random == 0 )
+                {
+                    if( Health < 3 )
+                    {
+                        Health++;
+                        HealthText.setString(std::to_string(Health));
+                    }
+                }
+                else
+                {
+                    ProjectileLimit += 5 ;
+                    ProjectileLimitText.setString(std::to_string(ProjectileLimit));
+                }
+                gifts.erase(gifts.begin()+i);
+            }
+        }
         //state changes
         if( myEnemies.size() == 0 && !stateSet )
         {

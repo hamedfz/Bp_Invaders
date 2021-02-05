@@ -107,6 +107,16 @@ Game::Game()
     }
     eggShipSound.setBuffer(eggShipBuffer);
 
+        //gifts
+    if( !giftTex.loadFromFile("res/gift.png") )
+    {
+        throw "gift Image Missing";
+    }
+    giftSample.setTexture(giftTex);
+    //reward sound
+    rewardBuffer.loadFromFile("res/reward.wav");
+    rewardSound.setBuffer(rewardBuffer);
+
     //enemy creation
     if(!myEnemyTex.loadFromFile("res/ChickenEnemy.png"))
     {
