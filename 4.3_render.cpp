@@ -35,6 +35,11 @@ void Game::render()
                 {
                     myWindow.draw(myEnemies[i]);
                 }
+            //draw eggSplashes
+                for( int i = 0 ; i < eggSplash.size() ; i++ )
+                {
+                    myWindow.draw(eggSplash[i]);
+                }
             //draw player
                 myWindow.draw(myPlayer);
             //infos
@@ -43,7 +48,7 @@ void Game::render()
                 myWindow.draw(ProjectileLimitText);
                 myWindow.draw(ProjectileInfo);
                 myWindow.draw(scoreText);
-                //draw timer
+                //myWindow.draw(bestScoreText);
                 myWindow.draw(myTimerText);
             break;
 

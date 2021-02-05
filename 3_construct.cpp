@@ -20,9 +20,12 @@ Game::Game()
     myBackground.setTexture(myBackgroundTex);
     myBackground.setScale( SCREEN_WIDTH/myBackground.getLocalBounds().width , SCREEN_HEIGHT/myBackground.getLocalBounds().height );
 
+    //txt file for scores
+    //ptr = fopen("res/score.txt","r");
+    //fscanf(ptr,"%d%d",&minFile,&secFile);
+    //fclose(ptr);
 
-
-    //font section
+    //font and messages section 
     if( !font.loadFromFile("res/arial.ttf") || !funFont.loadFromFile("res/TropicalAsian.ttf") )
     {
         throw "Font Missing";
@@ -36,6 +39,11 @@ Game::Game()
     scoreText.setOutlineThickness(5);
     scoreText.setString("Your Score");
     scoreText.move( 5 , -5 );
+    //bestScoreText.setFont(funFont);
+    //bestScoreText.setCharacterSize(50);
+    //bestScoreText.setOutlineThickness(5);
+    //bestScoreText.setString("Best Score");
+    //bestScoreText.move(100,100);
 
     //time handling
     myClock.restart().asSeconds();
@@ -118,6 +126,19 @@ Game::Game()
         throw "eggShip Missing";
     }
     eggShipSound.setBuffer(eggShipBuffer);
+
+        //eggsplash
+    if( !eggSplashTex.loadFromFile("res/eggSplash.png") )
+    {
+        throw "eggSplash Image Missing";
+    }
+    eggSplashSample.setTexture(eggSplashTex);
+
+    if( !eggDestroyedBuffer.loadFromFile("res/eggdestroy.oga") )
+    {
+        throw "eggSplash sound Missing";
+    }
+    eggDestroyedSound.setBuffer(eggDestroyedBuffer);
 
         //gifts
     if( !giftTex.loadFromFile("res/gift.png") )

@@ -61,16 +61,32 @@ void Game::update()
         {
             eggTimer++; 
         }
-        //egg move and delete
+        //egg move and delete and creat eggsplash
         for( int i = 0 ; i < eggProjectiles.size() ; i++ )
         {
             eggProjectiles[i].move(0.f,+1.f);
-            if( eggProjectiles[i].getPosition().y > myWindow.getSize().y )
+            if( eggProjectiles[i].getPosition().y + eggProjectiles[i].getGlobalBounds().height > myWindow.getSize().y )
             {
+                eggSplashSample.setPosition(eggProjectiles[i].getPosition().x,eggProjectiles[i].getPosition().y-6);
+                eggSplash.push_back(eggSplashSample);
+                eggSplashTimer.push_back(0);
+                eggDestroyedSound.play();
                 eggProjectiles.erase( eggProjectiles.begin()+i );
             }
         }
-    
+    //egg splash delete
+        for( int i = 0 ; i < eggSplash.size() ; i++ )
+        {
+            if( eggSplashTimer[i] >= 180 )
+            {
+                eggSplash.erase( eggSplash.begin() + i );
+                eggSplashTimer.erase( eggSplashTimer.begin() + i );
+            }
+            else
+            {
+                eggSplashTimer[i]++;
+            }
+        }
     //gifts
         if( giftTimer > 2000 )
         {

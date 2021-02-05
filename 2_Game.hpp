@@ -8,7 +8,7 @@
 #include <vector>
 #include <stdlib.h>
 
-enum State{ MainMenu , Playing , Win , Lose , Pause };
+enum State{ MainMenu , Playing , Win , Lose , Pause , Resume };
 
 class Game
 {
@@ -24,7 +24,9 @@ class Game
     //states
         State state;
         bool stateSet = false;
-        sf::Text messageText , scoreText;
+    
+    //texts messages
+        sf::Text messageText , scoreText ; // , bestScoreText;
 
     //time handling
         sf::Clock myClock;
@@ -36,7 +38,8 @@ class Game
         sf::RenderWindow myWindow;
     
     //txt file
-    //File *ptr;
+        //FILE *ptr;
+        //int minFile , secFile;
 
     //font section
         sf::Font funFont;
@@ -86,6 +89,14 @@ class Game
         sf::Sound eggShipSound;
         int eggTimer;
 
+        //eggSplash
+        sf::Texture eggSplashTex;
+        sf::Sprite eggSplashSample;
+        std::vector<sf::Sprite> eggSplash;
+        std::vector<int> eggSplashTimer;
+        sf::SoundBuffer eggDestroyedBuffer;
+        sf::Sound eggDestroyedSound;
+        
         //gifts
         sf::Texture giftTex;
         sf::Sprite giftSample;
