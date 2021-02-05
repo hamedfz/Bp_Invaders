@@ -2,20 +2,22 @@
 
 void Game::update()
 {
+if( state == Playing )
+{
 //myPlayer movements
-    if( (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && myPlayer[0].getPosition().x > 0) ||
-     (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && myPlayer[0].getPosition().x > 0) )
+    if( (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && myPlayer.getPosition().x > 0) ||
+     (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && myPlayer.getPosition().x > 0) )
     {
-        myPlayer[0].move(-3.f,0.f);
+        myPlayer.move(-3.f,0.f);
     }
 
-    if( (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && myPlayer[0].getPosition().x + myPlayer[0].getGlobalBounds().width < myWindow.getSize().x) || 
-    (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && myPlayer[0].getPosition().x + myPlayer[0].getGlobalBounds().width < myWindow.getSize().x) )
+    if( (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && myPlayer.getPosition().x + myPlayer.getGlobalBounds().width < myWindow.getSize().x) || 
+    (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && myPlayer.getPosition().x + myPlayer.getGlobalBounds().width < myWindow.getSize().x) )
     {
-        myPlayer[0].move(3.f,0.f);
+        myPlayer.move(3.f,0.f);
     }
 
-    myPlayerCenter = sf::Vector2f( myPlayer[0].getPosition().x + myPlayer[0].getGlobalBounds().width/2 - 4 , myPlayer[0].getPosition().y + myPlayer[0].getGlobalBounds().height/2 );
+    myPlayerCenter = sf::Vector2f( myPlayer.getPosition().x + myPlayer.getGlobalBounds().width/2 - 4 , myPlayer.getPosition().y + myPlayer.getGlobalBounds().height/2 );
 
 //shooting
     if( ShootTimer < 40 )
@@ -26,6 +28,7 @@ void Game::update()
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && ShootTimer >= 40 )
     {
         ShootTimer = 0;
+        ShootSound.play();
         PlayerProjectileSample.setPosition(myPlayerCenter.x-5,myPlayerCenter.y-50);
         PlayerProjectiles.push_back(PlayerProjectileSample);
     }
@@ -34,7 +37,9 @@ void Game::update()
     {
         PlayerProjectiles[i].move(0.f,-7.f);
         if( PlayerProjectiles[i].getPosition().y + PlayerProjectiles[i].getGlobalBounds().height < 0 )
+        {    
             PlayerProjectiles.erase( PlayerProjectiles.begin()+i );
+        }
     }
 
 //egg projectiles
@@ -98,7 +103,9 @@ void Game::update()
         {
             if( PlayerProjectiles[k].getGlobalBounds().intersects( myEnemies[i].getGlobalBounds() ) )
             {
+
                 PlayerProjectiles.erase( PlayerProjectiles.begin()+k );
+                ChickenHitSound.play();
                 myEnemies.erase( myEnemies.begin()+i );
             }
         }
@@ -106,22 +113,25 @@ void Game::update()
             //collision vs enemy projectiles and player
     for( int k = 0 ; k < eggProjectiles.size() ; k++ )
     {
-        if( eggProjectiles[k].getGlobalBounds().intersects( myPlayer[0].getGlobalBounds() ) )
+        if( eggProjectiles[k].getGlobalBounds().intersects( myPlayer.getGlobalBounds() ) )
         {
             Hearts.erase( Hearts.begin()+Hearts.size()-1 );
             eggProjectiles.erase( eggProjectiles.begin()+k );
         }
     }
+}
 
 //state changes
-    if( myEnemies.size() == 0 )
+    if( myEnemies.size() == 0 && !stateSet )
     {
         state = Win;
+        stateSet = true;
     }
 
-    if( Hearts.size() == 0 )
+    if( Hearts.size() == 0 && !stateSet )
     {
         state = Lose;
-        myPlayer.erase( myPlayer.begin() );
+        explosionSound.play();
+        stateSet = true;
     }
 }

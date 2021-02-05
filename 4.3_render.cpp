@@ -31,7 +31,7 @@ void Game::render()
                     myWindow.draw(myEnemies[i]);
                 }
             //draw player
-                myWindow.draw(myPlayer[0]);
+                myWindow.draw(myPlayer);
                 //hearts
                 for(int i = 0 ; i < Hearts.size() ; i++ )
                 {
@@ -46,8 +46,8 @@ void Game::render()
             break;
 
         case Lose:
-            text.setString("Game Over!");
             myWindow.draw(myBackground);
+            text.setString("Game Over!");
             myWindow.draw(text);
             break;
 

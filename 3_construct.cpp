@@ -38,11 +38,10 @@ Game::Game()
     {
         throw "myPlayer Image Missing";
     }
-    myPlayerSample.setTexture(myPlayerTex);
-    myPlayerSample.setScale(MYPLAYER_WIDTH/myPlayerSample.getLocalBounds().width , MYPLAYER_HEIGHT/myPlayerSample.getLocalBounds().height);
-    myPlayerSample.setPosition(myWindow.getSize().x/2 , myWindow.getSize().y - myPlayerSample.getLocalBounds().height/2 - 20 );
-    myPlayerCenter = sf::Vector2f( myPlayerSample.getPosition().x + myPlayerSample.getGlobalBounds().width/2 - 4 , myPlayerSample.getPosition().y + myPlayerSample.getGlobalBounds().height/2 );
-    myPlayer.push_back(myPlayerSample);
+    myPlayer.setTexture(myPlayerTex);
+    myPlayer.setScale(MYPLAYER_WIDTH/myPlayer.getLocalBounds().width , MYPLAYER_HEIGHT/myPlayer.getLocalBounds().height);
+    myPlayer.setPosition(myWindow.getSize().x/2 , myWindow.getSize().y - myPlayer.getLocalBounds().height/2 - 20 );
+    myPlayerCenter = sf::Vector2f( myPlayer.getPosition().x + myPlayer.getGlobalBounds().width/2 - 4 , myPlayer.getPosition().y + myPlayer.getGlobalBounds().height/2 );
         //hearts
     if( !HeartTex.loadFromFile("res/heart.png") )
     {
@@ -56,6 +55,12 @@ Game::Game()
         Hearts.push_back(HeartSample);
         HeartSample.move( HeartSample.getGlobalBounds().width + 5 , 0 );
     }
+        //explosion
+    if( !explosionBuffer.loadFromFile("res/playerExplode.oga") )
+    {
+        throw "playerExplode Missing";
+    }    
+    explosionSound.setBuffer(explosionBuffer);
 
     //projectile creation
         //player projectile
@@ -66,6 +71,16 @@ Game::Game()
     ShootTimer = 0;
     PlayerProjectileSample.setTexture(PlayerProjectileTex);
     PlayerProjectileSample.setScale( 20 / PlayerProjectileSample.getLocalBounds().width , 45/PlayerProjectileSample.getLocalBounds().height );
+    if( !ShootBuffer.loadFromFile("res/ShootSound.oga") )
+    {
+        throw "ShootSound Missing";
+    }
+    ShootSound.setBuffer(ShootBuffer);
+    if( !ChickenHitBuffer.loadFromFile("res/chickenhit.oga") )
+    {
+        throw "chickenhit Missing";
+    }
+    ChickenHitSound.setBuffer(ChickenHitBuffer);
         //enemy projectile
     if( !eggProjectileTex.loadFromFile("res/egg.png") )
     {
