@@ -138,6 +138,15 @@ void Game::update()
                 break;
             }
         }
+    //meat movement
+        for( int i = 0 ; i < meats.size() ; i++ )
+        {
+            meats[i].move(0.f,+1.5f);
+            if( meats[i].getPosition().y > myWindow.getSize().y )
+            {
+                meats.erase( meats.begin() + i );
+            }
+        }
 
     //collision
             //collision vs playerprojectiles and enemies
@@ -147,6 +156,8 @@ void Game::update()
             {
                 if( PlayerProjectiles[k].getGlobalBounds().intersects( myEnemies[i].getGlobalBounds() ) )
                 {
+                    meatSample.setPosition( myEnemies[i].getPosition().x , myEnemies[i].getPosition().y );
+                    meats.push_back(meatSample);
                     PlayerProjectiles.erase( PlayerProjectiles.begin()+k );
                     ChickenHitSound.play();
                     myEnemies.erase( myEnemies.begin()+i );
@@ -185,6 +196,17 @@ void Game::update()
                     ProjectileLimitText.setString(std::to_string(ProjectileLimit));
                 }
                 gifts.erase(gifts.begin()+i);
+            }
+        }
+            //meat collision vs player
+        for( int i = 0 ; i < meats.size() ; i++ )
+        {
+            if( meats[i].getGlobalBounds().intersects(myPlayer.getGlobalBounds()) )
+            {
+                meatSound.play();
+                meats.erase( meats.begin() + i );
+                ProjectileLimit++;
+                ProjectileLimitText.setString(std::to_string(ProjectileLimit));
             }
         }
         //state changes

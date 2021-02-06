@@ -108,7 +108,6 @@ Game::Game()
     ProjectileLimitText.setCharacterSize(25);
     ProjectileLimitText.setOutlineThickness(5);
     ProjectileLimitText.setFillColor(sf::Color::Yellow);
-    ProjectileLimitText.setString("45");
     ProjectileLimitText.setPosition( 127 , myWindow.getSize().y - HeartSample.getGlobalBounds().height - 15  );
     ProjectileInfo.setTexture(PlayerProjectileTex);
     ProjectileInfo.setScale( 20 / PlayerProjectileSample.getLocalBounds().width , 45/PlayerProjectileSample.getLocalBounds().height );
@@ -167,6 +166,19 @@ Game::Game()
             myEnemy.move(0,-myEnemy.getGlobalBounds().height-10);
         }
     }
+
+    //meats
+    if( !meatTex.loadFromFile("res/meat.png") )
+    {
+        throw "meat Image Missing";
+    }
+    meatSample.setTexture(meatTex);
+    meatSample.setScale(0.7,0.8);
+    if( !meatSoundBuffer.loadFromFile("res/foodeat.oga") )
+    {
+        throw "eat food sound Missing";
+    }
+    meatSound.setBuffer(meatSoundBuffer);
 
     //sounds
     if( !winSoundBuffer.loadFromFile("res/youwin.ogg") )

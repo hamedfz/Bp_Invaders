@@ -76,7 +76,7 @@ class Game
         sf::Sound ShootSound;
         sf::SoundBuffer ChickenHitBuffer;
         sf::Sound ChickenHitSound;
-        int ProjectileLimit = 45;
+        int ProjectileLimit = 25;
         int ShootTimer = 0;
         sf::Text ProjectileLimitText;
         sf::Sprite ProjectileInfo;
@@ -104,6 +104,13 @@ class Game
         int giftTimer = 0;
         sf::SoundBuffer rewardBuffer;
         sf::Sound rewardSound;
+
+        //meat spirits and sound
+        sf::Texture meatTex;
+        sf::Sprite meatSample;
+        std::vector< sf::Sprite > meats;
+        sf::SoundBuffer meatSoundBuffer;
+        sf::Sound meatSound;
 
     //enemy
         sf::Texture myEnemyTex;

@@ -20,10 +20,15 @@ void Game::render()
                 {
                     myWindow.draw(PlayerProjectiles[i]);
                 }
-            //draw gifta
+            //draw gifts
                 for( int i = 0 ; i < gifts.size() ; i++ )
                 {
                     myWindow.draw(gifts[i]);
+                }
+            //draw meats
+                for( int i = 0 ; i < meats.size() ; i++ )
+                {
+                    myWindow.draw(meats[i]);
                 }
             //draw eggs
                 for( int i = 0 ; i < eggProjectiles.size() ; i++ )
