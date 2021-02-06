@@ -41,6 +41,12 @@ class Game
         //FILE *ptr;
         //int minFile , secFile;
 
+    //explosion texture and animation
+        //sf::Texture explosionTex;
+        //Animation animation;
+        //float deltaTime = 0.0f;
+        //sf::Clock clockDeltaTime;
+
     //font section
         sf::Font funFont;
         sf::Font font;

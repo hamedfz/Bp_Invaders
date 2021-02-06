@@ -25,6 +25,13 @@ Game::Game()
     //fscanf(ptr,"%d%d",&minFile,&secFile);
     //fclose(ptr);
 
+    //explosion animation
+            //if( !explosionTex.loadFromFile("res/explosionSheet.png") )
+            //{
+            //    throw "explosion spirit sheet Missing";
+            //}
+            //animation.setValues( explosionTex , sf::Vector2u(5,3) , 0.3f );
+
     //font and messages section 
     if( !font.loadFromFile("res/arial.ttf") || !funFont.loadFromFile("res/TropicalAsian.ttf") )
     {
@@ -37,7 +44,7 @@ Game::Game()
     scoreText.setFont(funFont);
     scoreText.setCharacterSize(50);
     scoreText.setOutlineThickness(5);
-    scoreText.setString("Your Score");
+    scoreText.setString("Stopwatch");
     scoreText.move( 5 , -5 );
     //bestScoreText.setFont(funFont);
     //bestScoreText.setCharacterSize(50);

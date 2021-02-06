@@ -1,7 +1,7 @@
 run: app
 	./app
 
-app:	1_main.o 3_construct.o 4_run.o 4.1_processEvents.o 4.2_update.o 4.3_render.o 
+app:	1_main.o 3_construct.o 4_run.o 4.1_processEvents.o 4.2_update.o 4.3_render.o
 	g++ 1_main.o 3_construct.o 4_run.o 4.1_processEvents.o 4.2_update.o 4.3_render.o -o app -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 	
 1_main.o: 1_main.cpp
