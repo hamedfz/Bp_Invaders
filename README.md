@@ -1,2 +1,2 @@
 # Chicken_Invaders
-Simple Game
+Simple chicken invaders game with sfml
